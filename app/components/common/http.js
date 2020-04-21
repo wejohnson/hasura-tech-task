@@ -3,7 +3,7 @@ import axios from 'axios';
 function httpCall(url, method, params) {
     return axios({
         method: method,
-        url: 'http://localhost:5000' + url,
+        url: 'http://localhost:8080' + url,
         params: params,
       }).then(res => 
         {
