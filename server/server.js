@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 8080;
 const path = require('path');
-const random_name = require('node-random-name');
 const mysql = require('mysql');
 
 
