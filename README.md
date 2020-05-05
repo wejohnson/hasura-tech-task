@@ -8,6 +8,6 @@ To run locally:
 1. Run `npm install`
 1. Run `npm run build`
 1. Run `npm start'
-1. Point browser to 'http://localhost:5000`
+1. Point browser to 'http://localhost:8080`
 
 

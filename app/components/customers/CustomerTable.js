@@ -6,7 +6,6 @@ import './less/customers.less';
 /* Table that holds displays the customer data */
 function CustomerTable(props) {
     const customers = props.data;
-    console.log(customers)
 
     return (
         <div >

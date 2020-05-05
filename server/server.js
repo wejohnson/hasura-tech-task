@@ -11,10 +11,10 @@ app.use(express.static(path.join(__dirname, '../build')));
 
 /* Connect to db and retrieve customer data */
 const con = mysql.createConnection({
-  host: "a2ss36.a2hosting.com",
-  user: "longklaw_hasuradb_user",
-  database: "longklaw_hasura_db",
-  password: "longklaw_hasuradb_user"
+  host: process.env.DBHOST,
+  user: process.env.DBUSER,
+  database: process.env.DBNAME,
+  password: process.env.DBPASSWORD
 });
 
 let customerData = [];
