@@ -5,45 +5,43 @@ const port = process.env.PORT || 8080;
 const path = require('path');
 const mysql = require('mysql');
 
-
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../build')));
 
 /* Connect to db and retrieve customer data */
 const con = mysql.createConnection({
   host: process.env.DBHOST,
-  user: process.env.DBUSER,
   database: process.env.DBNAME,
+  user: process.env.DBUSER,
   password: process.env.DBPASSWORD
 });
 
-let customerData = [];
-con.connect((err) => {
-  if (err) throw err;
-  let sql = 'select customerName, contactFirstName, contactLastName from customers order by customerName;'
-  con.query(sql, function (err, rows) {
-    if (err) throw err;
+con.connect();
 
+/* Query the database. Takes a sql statement and a callback */
+const queryDataBase =  (sql, callback) => {
+  con.query(sql, (err, rows) => {
+    if (err) throw err;
+    callback(rows)
+  });
+};
+
+/* Customer endpoint. Returns a list of customers */
+app.get('/customers', (req, res) => {
+  let sql = 'select customerName, contactFirstName, contactLastName from customers order by customerName;'
+  queryDataBase(sql, (rows) => {
+    let data = [];
     rows.forEach(row => {
-      customerData.push({
+      data.push({
         customerName: row.customerName,
         contactFirstName: row.contactFirstName,
         contactLastName: row.contactLastName,
       });
     });
 
-    con.end((err) => {
-      if (err) throw err;
-    });
-  });
-  
+    res.send(data);
+  })
 });
-
-/* Customer endpoint. Returns a list of customers */
-app.get('/customers', (req, res) => {
-  res.send(customerData);
-});
-
 
 /* No matter the path to bundle.js, return the build bundle. */
 app.get('*/bundle.js', (req, res) => {
